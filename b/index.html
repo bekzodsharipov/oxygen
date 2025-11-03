@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1-2-3-4-5-Noyabr</title>
+
+    <!-- 1) Preconnect to speed things up -->
+    <link rel="preconnect" href="https://dream-house-alpha.vercel.app" crossorigin>
+
+    <!-- 2) Preload ABOVE-THE-FOLD images -->
+    <link rel="preload" as="image" href="./images/expert.avif" type="image/avif" />
+    <link rel="preload" as="image" href="./images/button_light.avif" type="image/avif" />
+    <link rel="preload" as="image" href="./images/bg.avif" type="image/avif" />
+    <link rel="preload" as="image" href="./images/logo.avif" type="image/avif" />
+
+    <!-- async CSS for modal -->
+    <link rel="stylesheet" href="./css/modal.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="./css/modal.css" />
+    </noscript>
+
+    <!-- 3) font-display to stop Lighthouse warning -->
+    <style>
+        .timer,
+        .title {
+            text-align: center
+        }
+
+        .header__text,
+        .planet__div span,
+        .title {
+            font-size: clamp(14px, 3vw, 20px);
+            line-height: 120%
+        }
+
+        .bg,
+        .header,
+        .planet__div_per {
+            width: 100%
+        }
+
+        .planet__div {
+            background-color: #fff;
+            display: flex;
+            max-width: fit-content;
+            gap: 8px;
+            border: 1px solid #d6ad6b;
+            align-items: center;
+            border-radius: 10px;
+            padding-right: 58px
+        }
+
+        .header,
+        body {
+            background-color: #f2f2f2
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif
+        }
+
+        .title span {
+            background-color: #e4383a;
+            color: #fff;
+            padding: 0 4px
+        }
+
+        .header__text,
+        .title {
+            letter-spacing: -.02em;
+            font-weight: 600;
+            color: #000
+        }
+
+        .planet__div img {
+            width: clamp(51px, 15vw, 71px);
+            height: auto;
+            object-fit: contain
+        }
+
+        .event__list,
+        .gift,
+        .homeModal {
+            content-visibility: auto
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        .container {
+            max-width: 467px;
+            margin: 0 auto;
+            padding: 0 10px 23px;
+            display: flex;
+            flex-direction: column;
+            align-items: center
+        }
+
+        .bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            inset: 1;
+            z-index: -1
+        }
+
+        .expert__container,
+        .header__logo {
+            position: relative
+        }
+
+        @media (min-width:500px) {
+            .bg {
+                display: none
+            }
+
+            body {
+                background-color: #ffc9c9
+            }
+        }
+
+        .header__container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 32px 12px
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            min-width: 313px;
+            align-items: end;
+            margin-bottom: 22px;
+            border-bottom-right-radius: 24px;
+            border-bottom-left-radius: 24px
+        }
+
+        .event__btn,
+        .event__btn__arrow {
+            align-items: center;
+            display: flex
+        }
+
+        @media (max-width:350px) {
+            .header {
+                padding: 7px 10px
+            }
+        }
+
+        .header__logo {
+            width: clamp(95px, 30vw, 145px);
+            height: auto
+        }
+
+        .header__left {
+            max-width: 68px;
+            width: 100%;
+            background-color: #3f3f3f;
+            border-radius: 10px;
+            padding: 7px 9px;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 100%;
+            color: #fff
+        }
+
+        .header__line {
+            height: 31px;
+            border: 1px solid #915544;
+            border-radius: 10px
+        }
+
+        .vecor {
+            border: 1px solid #d6ad6b;
+            height: 21.5px
+        }
+
+        .header__text {
+            font-weight: 600;
+            font-size: 14px;
+            text-wrap: nowrap
+        }
+
+        .event__btn,
+        .timer,
+        .title {
+            font-weight: 700;
+            text-transform: uppercase
+        }
+
+        .event-meta {
+            display: flex;
+            font-weight: 600;
+            font-family: Poppins, sans-serif;
+            justify-content: center;
+            gap: clamp(6px, 2vw, 10px);
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .event-meta__item,
+        .gift {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-meta__item {
+            gap: 2px
+        }
+
+        .event__btn,
+        .event__btn__container {
+            justify-content: center;
+            position: relative
+        }
+
+        .event-meta__item svg {
+            width: clamp(16px, 3vw, 21px);
+            height: clamp(16px, 3vw, 21px)
+        }
+
+        .title {
+            font-family: Kunari, sans-serif;
+            font-size: clamp(32px, 6.9vw, 34px);
+            line-height: 120%;
+            margin-bottom: 11px;
+            color: #fff
+        }
+
+        .planet__div {
+            font-family: SF Pro Display, sans-serif
+        }
+
+        .bottom_info span,
+        .event__btn {
+            font-family: MontserratSubset, sans-serif
+        }
+
+        .event__list+.event__btn__container {
+            margin-top: 10px
+        }
+
+        .event__btn__container {
+            width: 100%;
+            display: flex
+        }
+
+        .event__btn__container img {
+            width: 100%;
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            pointer-events: none
+        }
+
+        .bottom_info {
+            margin-top: 4px
+        }
+
+        .bottom_info span {
+            font-weight: 600;
+            font-size: 12px
+        }
+
+        .expert__img {
+            object-fit: contain;
+            max-width: clamp(252px, 70vw, 322px);
+            width: 100%;
+            height: auto;
+            margin-bottom: -90px
+        }
+
+        .loyiha_img__container {
+            top: 180px;
+            left: 62px;
+            position: absolute;
+            color: #fff;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px
+        }
+
+        .event__btn {
+            gap: 10px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #CD0002 0%, #FF0306 55.77%, #CD0002 100%);
+            box-shadow: 0px 5px 0px 0px #B00002;
+            border: none;
+            border-radius: 100px;
+            max-width: 341px;
+            width: 100%;
+            text-decoration: none;
+            padding: clamp(26px, 10vw, 23px) 18px;
+            font-size: clamp(20px, 2.4vw, 25px);
+            line-height: 151%;
+            color: #fff;
+            transition: transform .2s, box-shadow .2s;
+            letter-spacing: 2px
+        }
+
+        .event__btn__arrow {
+            justify-content: center;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #fff
+        }
+
+        .event__btn__light {
+            position: absolute;
+            top: -65px
+        }
+
+        .timer {
+            font-family: Big Shoulders Display, sans-serif;
+            font-size: 40px;
+            line-height: 28px;
+            letter-spacing: .1em;
+            color: #000;
+            margin-top: 55px
+        }
+
+        .gift__text,
+        .gift__title {
+            font-weight: 400;
+            line-height: 120%
+        }
+
+        .gift {
+            display: inline-flex;
+            gap: 8px;
+            margin-top: 19px;
+            margin-bottom: 26px;
+            border: 3px solid transparent;
+            border-radius: 20px;
+            background: linear-gradient(#fff, #fff) padding-box, linear-gradient(0deg, #ff2e11 0, #f8f8ff 80.71%) border-box;
+            padding-right: 11px;
+            color: #000;
+            max-width: fit-content
+        }
+
+        .gift__img {
+            object-fit: contain;
+            width: clamp(52px, 23.3vw, 98px);
+            height: auto
+        }
+
+        .gift__title {
+            color: #000;
+            font-family: Kunari, sans-serif;
+            font-size: clamp(14px, 5.6vw, 23px);
+            margin-bottom: 11px;
+        }
+
+        .gift__text {
+            color: #000;
+            font-family: Poppins, sans-serif;
+            font-size: clamp(14px, 4vw, 16px)
+        }
+
+        .event__list__item__left__date,
+        .event__list__title {
+            font-family: Kunari, sans-serif;
+            font-weight: 700;
+            color: #000
+        }
+
+        .gift__text span {
+            color: #cd1225
+        }
+
+        .event__list__title {
+            font-size:  24px;
+            line-height: 120%;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 21px;
+            margin-top: 20px;
+        }
+
+        .event__list {
+            max-width: 317px;
+            display: grid;
+            grid-template: 1fr;
+            gap: 10px;
+            list-style: none;
+            margin-bottom: 15px;
+            contain-intrinsic-size: 900px 400px
+        }
+
+        .event__list__item {
+            width: 100%;
+            position: relative;
+            border-radius: 15px;
+            padding: 12px 10px;
+            overflow: hidden;
+            color: #000;
+            background: #fff;
+            border: 1px solid #8a500B47;
+            display: flex;
+            align-items: center;
+            border: 1px solid #E4383A;
+            gap: 10px;
+        }
+
+        .event__list__item__text {
+            font-family: SF Pro, sans-serif;
+            font-weight: 400;
+            font-size: clamp(14px, 3.4vw, 16px);
+            line-height: 120%;
+            padding-block: 10px
+        }
+
+        .event__list__item__text span {
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase
+        }
+
+        .date-time-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .date-item,
+        .time-item {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .date-item span,
+        .time-item span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #000
+        }
+
+        .date-item svg,
+        .time-item svg {
+            flex-shrink: 0
+        }
+
+        .blur-up {
+            filter: none;
+            transition: none
+        }
+
+        .event-meta__text {
+            font-size: 16px;
+            line-height: 16px;
+        }
+
+    
+        @media (max-width:500px) {
+            .fastpaint .header {
+                background: #6b6b6b
+            }
+
+            .header__container {
+                padding: 16px 3px;
+            }
+
+            .fastpaint .event__btn {
+                background: #ffc858;
+                box-shadow: none
+            }
+        }
+
+        @media screen and (max-width:360px) {
+            .event__list__item__left__img {
+                width: 42px;
+                height: auto;
+            }
+
+            .title {
+                font-size: 30px;
+            }
+
+            .title br {
+                display: none;
+            }
+            .event__list__title {
+                font-size: 22px;
+                margin-bottom: 10px;
+            }
+            .bottom_info span {
+                font-size: 11px;
+            }
+            .header__container {
+                padding: 11px 3px;
+            }
+
+        }
+
+        .homeModal {
+            contain-intrinsic-size: 600px 400px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container header__container">
+            <div class="event-meta">
+                <div class="event-meta__item">
+                    <img src="./images/calendar.png" alt="Calendar" width="22" height="22" decoding="async"
+                        fetchpriority="high" />
+                    <span class="event-meta__text">14-Noyabr</span>
+                </div>
+
+                <span class="vecor"></span>
+
+                <div class="event-meta__item">
+                    <span class="event-meta__text">20:00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="planet__div_per">
+            <h1 class="title">
+                <span> 500$ boshlang’ich to’lov</span> <br> bilan xonadonli bo’ling!
+            </h1>
+        </div>
+
+
+        <div class="expert__container">
+            <div class="loyiha_img__container">
+                <img src="./images/information.png" alt="">
+                Loyiha Rahbari
+            </div>
+            <img src="./images/speaker.avif" data-src="./images/speakerMini.avif" alt="Expert" class="expert__img"
+                width="252" height="315" decoding="async" fetchpriority="high" />
+        </div>
+
+
+        <div class="event__btn__container">
+            <a href="#" class="event__btn registerBtn">bepul qatnashish</a>
+        </div>
+
+        <span class="timer">02:00</span>
+
+
+
+
+        <h2 class="event__list__title">Vebinarga qatnashish orqali 👇</h2>
+        <ul class="event__list">
+            <li class="event__list__item">
+                <p class="event__list__item__left">
+                    <img class="event__list__item__left__img" src="./images/event__list__item_images/item_image_1.avif"
+                        alt="Item" width="52" height="52" decoding="async" loading="lazy">
+                </p>
+                <p class="event__list__item__text">
+                    Xonadonlarni chegirmali narxlarda olishingiz mumkin!
+                </p>
+            </li>
+
+            <li class="event__list__item">
+                <p class="event__list__item__left">
+                    <img class="event__list__item__left__img" src="./images/event__list__item_images/item_image_2.avif"
+                        alt="Item" width="52" height="52" decoding="async" loading="lazy">
+                </p>
+                <p class="event__list__item__text">
+                    Loyiha haqidagi barcha savollaringizga javob olasiz
+                </p>
+            </li>
+
+        </ul>
+
+        <div class="event__btn__container">
+            <a href="#" class="event__btn registerBtn">bepul qatnashish</a>
+        </div>
+
+        <div class="bottom_info">
+            <span>Yopiq Telegram kanalga qo’shilish uchun bosing</span>
+            <img src="./images/arrow.png" alt="Arrow">
+        </div>
+    </div>
+
+    <!-- Background NOT lazy now -->
+    <img style="object-fit: cover;" src="./images/bg.avif" alt="bg" class="bg" decoding="async" width="1920"
+        height="1080" fetchpriority="low">
+
+    <script defer src="../js/app.js"></script>
+</body>
+
+</html>
